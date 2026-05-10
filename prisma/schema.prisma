@@ -18,11 +18,56 @@ model Author {
   email String @unique
   name  String
   books Book[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Book {
-  id       String @id @default(uuid())
-  title    String
-  authorId String
-  author   Author @relation(fields: [authorId], references: [id])
+  id          String    @id @default(uuid())
+  title       String
+  authorId    String
+  author      Author    @relation(fields: [authorId], references: [id])
+  publisherId String
+  publisher   Publisher @relation(fields: [publisherId], references: [id])
+  year        Int
+  genres      Genre[]
+  reviews Review[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Genre {
+  id    String @id @default(uuid())
+  name  String
+  books Book[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Publisher {
+  id    String @id @default(uuid())
+  name  String
+  books Book[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  }
+
+  model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  reviews   Review[]
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  bookId    String
+  book      Book     @relation(fields: [bookId], references: [id])
 }
