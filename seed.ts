@@ -41,9 +41,27 @@ async function main() {
     },
   });
 
+  const user = await prisma.user.create({
+    data: {
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+    },
+  });
+
+  const review = await prisma.review.create({
+    data: {
+      rating: faker.number.int({ min: 1, max: 5 }),
+      comment: faker.lorem.sentence(),
+      userId: user.id,
+      bookId: author.books[0].id,
+    },
+  });
+
   console.log("Created publisher:", publisher);
   console.log("Created genres:", genre1, genre2);
   console.log("Created author:", author);
+  console.log("Created user:", user);
+  console.log("Created review:", review);
 }
 
 main()
